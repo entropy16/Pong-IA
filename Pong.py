@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 import pickle
+import os.path
 
 NEGRO = [7,7,7]
 BLANCO = [255,255,255]
@@ -113,7 +114,6 @@ def calcularVel(vel, modo):
 	return vel
 
 class Player:
-
 	def __init__(self, paddle):
 		self.breed = "Humano"
 		self.paddle = paddle
@@ -197,9 +197,11 @@ class QLearnPlayer(Player):
 			pickle.dump(self.q, f) 
 
 	def importQ(self):
-		with open('Qdict.pkl', 'rb') as f:
-			Qdict = pickle.load(f)
-		return Qdict
+		if os.path.exists('Qdict.pkl'):
+			with open('Qdict.pkl', 'rb') as f:
+				Qdict = pickle.load(f)
+			return Qdict
+		else: return {}
 		
 def Pong(modo=2, dificultad=1):
 	# Inicialización de Pygame
